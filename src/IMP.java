@@ -262,6 +262,18 @@ class IMP implements MouseListener{
     * After you make changes and do your calculations to your pixel values the getPixels method will put the 4 values in your ARGB array back into a single
     * integer value so you can give it back to the program and display the new picture. 
     */
+
+  /*
+   * fun2
+   * This is where you will write your STACK
+   * All the pixels are in picture[][]
+   * Look at above fun1() to see how to get the RGB out of the int (getPixelArray)
+   * and then put the RGB back to an int (getPixels)
+   */  
+  
+  /*
+   * Take color image and turn it grayscale.
+   */
   private void grayscale()
   {
     // 0.21 R + 0.72 G + 0.07 B
@@ -285,18 +297,10 @@ class IMP implements MouseListener{
         } 
         resetPicture();
   }
-
-  /*
-   * fun2
-   * This is where you will write your STACK
-   * All the pixels are in picture[][]
-   * Look at above fun1() to see how to get the RGB out of the int (getPixelArray)
-   * and then put the RGB back to an int (getPixels)
-   */  
   
   /*
-  *Turn photo 90 degrees clockwise
-  */
+   * Turn photo 90 degrees clockwise
+   */
   private void rotate90()
   {
     int newImage[][] = new int[width][height];  
@@ -310,11 +314,35 @@ class IMP implements MouseListener{
     width = temp;
     picture = newImage;
     resetPicture(); 
-    System.out.println("Completed rotation.");
   }
   
+  /*
+   * Show histogram of colors in image in 3 seperate windows.
+   */
   private void histogram()
   {
+        //First count all pixel values in R and G and B array
+        int colorCounter[][] = new int[3][256];  //[color][intensity value]
+        for(int i=0; i<height; i++) {
+            for(int j=0; j<width; j++){
+                int argb[] = new int[4];
+                argb = getPixelArray(picture[i][j]);
+                colorCounter[0][argb[1]]++; //Red
+                colorCounter[1][argb[2]]++; //Green
+                colorCounter[2][argb[3]]++; //Blue
+            }
+        }
+        int redTempCounter =0;
+        for(int i=0; i<colorCounter[1].length; i++){
+            redTempCounter+= colorCounter[0][i];
+            System.out.println("Red "+(i-1)+" frequency - "+colorCounter[0][i]);
+            //System.out.println("Green "+(i-1)+" frequency - "+colorCounter[1][i]);
+            //System.out.println("Blue "+(i-1)+" frequency - "+colorCounter[2][i]);
+        }
+        System.out.println("Red Counter - "+redTempCounter);
+        //Then pass those arrays to MyPanel constructor
+        //Then when button is pushed call drawHistogram in MyPanel.....you write DrawHistogram
+        //Don't forget to call repaint();
   }
   
  private void edgeDetection()
@@ -331,7 +359,8 @@ class IMP implements MouseListener{
      System.exit(0);
   }
 
-  // A bunch of mouse listeners that we aren't using for this lab
+  // A bunch of mouse listeners that we aren't using for this lab 
+  // Maybe for the color tracking
   
     @Override
    public void mouseEntered(MouseEvent m){}
