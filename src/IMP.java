@@ -5,6 +5,9 @@
 
 import javax.swing.*;
 import java.awt.*;
+import static java.awt.Color.blue;
+import static java.awt.Color.green;
+import static java.awt.Color.red;
 import java.awt.event.*;
 import java.io.File;
 import java.awt.image.PixelGrabber;
@@ -332,17 +335,34 @@ class IMP implements MouseListener{
                 colorCounter[2][argb[3]]++; //Blue
             }
         }
-        int redTempCounter =0;
-        for(int i=0; i<colorCounter[1].length; i++){
-            redTempCounter+= colorCounter[0][i];
-            System.out.println("Red "+(i-1)+" frequency - "+colorCounter[0][i]);
-            //System.out.println("Green "+(i-1)+" frequency - "+colorCounter[1][i]);
-            //System.out.println("Blue "+(i-1)+" frequency - "+colorCounter[2][i]);
-        }
-        System.out.println("Red Counter - "+redTempCounter);
+        JFrame redFrame = new JFrame("Red");
+        redFrame.setSize(305, 600);
+        redFrame.setLocation(800, 0);
+        JFrame greenFrame = new JFrame("Green");
+        greenFrame.setSize(305, 600);
+        greenFrame.setLocation(1150, 0);
+        JFrame blueFrame = new JFrame("blue");
+        blueFrame.setSize(305, 600);
+        blueFrame.setLocation(1450, 0);
+        redPanel = new MyPanel(colorCounter[0]);
+        greenPanel = new MyPanel(colorCounter[1]);
+        bluePanel = new MyPanel(colorCounter[2]);
+        redFrame.getContentPane().add(redPanel, BorderLayout.CENTER);
+        redFrame.setVisible(true);
+        greenFrame.getContentPane().add(greenPanel, BorderLayout.CENTER);
+        greenFrame.setVisible(true);
+        blueFrame.getContentPane().add(bluePanel, BorderLayout.CENTER);
+        blueFrame.setVisible(true);
+        start.setEnabled(true);
+        
+        //System.out.println("Red Counter - "+redTempCounter);
         //Then pass those arrays to MyPanel constructor
         //Then when button is pushed call drawHistogram in MyPanel.....you write DrawHistogram
         //Don't forget to call repaint();
+  }
+  
+  private JPanel MyPanel(int[] array) {
+      
   }
   
  private void edgeDetection()
