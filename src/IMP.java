@@ -344,9 +344,9 @@ class IMP implements MouseListener{
         JFrame blueFrame = new JFrame("blue");
         blueFrame.setSize(305, 600);
         blueFrame.setLocation(1450, 0);
-        redPanel = new MyPanel(colorCounter[0]);
-        greenPanel = new MyPanel(colorCounter[1]);
-        bluePanel = new MyPanel(colorCounter[2]);
+        JPanel redPanel = new MyPanel(colorCounter[0]);
+        JPanel greenPanel = new MyPanel(colorCounter[1]);
+        JPanel bluePanel = new MyPanel(colorCounter[2]);
         redFrame.getContentPane().add(redPanel, BorderLayout.CENTER);
         redFrame.setVisible(true);
         greenFrame.getContentPane().add(greenPanel, BorderLayout.CENTER);
@@ -359,10 +359,6 @@ class IMP implements MouseListener{
         //Then pass those arrays to MyPanel constructor
         //Then when button is pushed call drawHistogram in MyPanel.....you write DrawHistogram
         //Don't forget to call repaint();
-  }
-  
-  private JPanel MyPanel(int[] array) {
-      
   }
   
  private void edgeDetection()
