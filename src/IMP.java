@@ -78,10 +78,6 @@ class IMP implements MouseListener{
       butPanel.setBackground(Color.black);
       start = new JButton("start");
       start.setEnabled(false);
-      start.addActionListener(new ActionListener(){ // i dont think we need this but idk.
-            @Override
-          public void actionPerformed(ActionEvent evt){ rotate90(); }
-           });
       butPanel.add(start);
       frame.getContentPane().add(butPanel, BorderLayout.SOUTH);
       frame.setJMenuBar(bar);
@@ -182,10 +178,8 @@ class IMP implements MouseListener{
   {
      picture = new int[height][width];
      for(int i=0; i<height; i++)
-       for(int j=0; j<width; j++)
-          picture[i][j] = pixels[i*width+j];
-      
-     
+     for(int j=0; j<width; j++)
+     picture[i][j] = pixels[i*width+j];
   }
   /*
    *  This method takes the picture back to the original picture
@@ -323,42 +317,42 @@ class IMP implements MouseListener{
    * Show histogram of colors in image in 3 seperate windows.
    */
   private void histogram()
-  {
-        //First count all pixel values in R and G and B array
-        int colorCounter[][] = new int[3][256];  //[color][intensity value]
-        for(int i=0; i<height; i++) {
-            for(int j=0; j<width; j++){
-                int argb[] = new int[4];
-                argb = getPixelArray(picture[i][j]);
-                colorCounter[0][argb[1]]++; //Red
-                colorCounter[1][argb[2]]++; //Green
-                colorCounter[2][argb[3]]++; //Blue
-            }
+  {     
+    //First count all pixel values in R and G and B array
+    int colorCounter[][] = new int[3][256];  //[color][intensity value]
+    for(int i=0; i<height; i++) {
+        for(int j=0; j<width; j++){
+            int argb[] = new int[4];
+            argb = getPixelArray(picture[i][j]);
+            colorCounter[0][argb[1]]++; //Red
+            colorCounter[1][argb[2]]++; //Green
+            colorCounter[2][argb[3]]++; //Blue
         }
-        JFrame redFrame = new JFrame("Red");
-        redFrame.setSize(305, 600);
-        redFrame.setLocation(800, 0);
-        JFrame greenFrame = new JFrame("Green");
-        greenFrame.setSize(305, 600);
-        greenFrame.setLocation(1150, 0);
-        JFrame blueFrame = new JFrame("blue");
-        blueFrame.setSize(305, 600);
-        blueFrame.setLocation(1450, 0);
-        JPanel redPanel = new MyPanel(colorCounter[0]);
-        JPanel greenPanel = new MyPanel(colorCounter[1]);
-        JPanel bluePanel = new MyPanel(colorCounter[2]);
-        redFrame.getContentPane().add(redPanel, BorderLayout.CENTER);
-        redFrame.setVisible(true);
-        greenFrame.getContentPane().add(greenPanel, BorderLayout.CENTER);
-        greenFrame.setVisible(true);
-        blueFrame.getContentPane().add(bluePanel, BorderLayout.CENTER);
-        blueFrame.setVisible(true);
-        start.setEnabled(true);
-        
-        //System.out.println("Red Counter - "+redTempCounter);
-        //Then pass those arrays to MyPanel constructor
-        //Then when button is pushed call drawHistogram in MyPanel.....you write DrawHistogram
-        //Don't forget to call repaint();
+    }
+    JFrame redFrame = new JFrame("Red");
+    redFrame.setSize(305, 600);
+    redFrame.setLocation(800, 0);
+    JFrame greenFrame = new JFrame("Green");
+    greenFrame.setSize(305, 600);
+    greenFrame.setLocation(1150, 0);
+    JFrame blueFrame = new JFrame("blue");
+    blueFrame.setSize(305, 600);
+    blueFrame.setLocation(1450, 0);
+    MyPanel redPanel = new MyPanel(colorCounter[0]);
+    JPanel greenPanel = new MyPanel(colorCounter[1]);
+    JPanel bluePanel = new MyPanel(colorCounter[2]);
+    redFrame.getContentPane().add(redPanel, BorderLayout.CENTER);
+    redFrame.setVisible(true);
+    greenFrame.getContentPane().add(greenPanel, BorderLayout.CENTER);
+    greenFrame.setVisible(true);
+    blueFrame.getContentPane().add(bluePanel, BorderLayout.CENTER);
+    blueFrame.setVisible(true);
+    start.setEnabled(true);
+
+    //System.out.println("Red Counter - "+redTempCounter);
+    //Then pass those arrays to MyPanel constructor
+    //Then when button is pushed call drawHistogram in MyPanel.....you write DrawHistogram
+    //Don't forget to call repaint();
   }
   
  private void edgeDetection()

@@ -1,5 +1,6 @@
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.geom.Line2D;
@@ -17,38 +18,30 @@ import javax.swing.JPanel;
  * @author Keinan
  */
 public class MyPanel extends JPanel{
-    
-    JPanel jp = null;
+    JPanel jp = new JPanel();
     int[] colorArray;
     BufferedImage grid;
-    Graphics2D gc;
-    
     
     MyPanel(int[] array) {
         colorArray = array;
         jp.setBackground(Color.white);
+        int w = jp.getWidth();
+        int h = jp.getHeight();
+        grid = (BufferedImage)(this.createImage(w,h));
     }
     
     public void paintComponent(Graphics g) {
         super.paintComponent(g);  
         Graphics2D g2 = (Graphics2D)g;
-        if(grid == null){
-           int w = this.getWidth();
-           int h = this.getHeight();
-           grid = (BufferedImage)(this.createImage(w,h));
-           gc = grid.createGraphics();
-        }
         g2.drawImage(grid, null, 0, 0);
-    }
-    
-    private void drawHistogram() {
         for(int i = 0; i < colorArray.length; i++) {
             int xStart = i;
             int yStart = 0;
             int xEnd = i;
             int yEnd = colorArray[i];
             Line2D lin = new Line2D.Float(xStart, yStart, xEnd, yEnd);
-            gc.draw(lin);
+            g2.drawLine(xStart, yStart, xEnd, yEnd);
         }
+        jp.repaint();
     }
 }
