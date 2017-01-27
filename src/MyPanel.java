@@ -35,10 +35,10 @@ public class MyPanel extends JPanel{
         Graphics2D g2 = (Graphics2D)g;
         g2.drawImage(grid, null, 0, 0);
         for(int i = 0; i < colorArray.length; i++) {
-            int xStart = i;
-            int yStart = 0;
-            int xEnd = i;
-            int yEnd = colorArray[i];
+            int xStart = i*(this.getWidth()/255);
+            int yStart = this.getHeight();
+            int xEnd = i*(this.getWidth()/255);;
+            int yEnd = this.getHeight()-colorArray[i];
             Line2D lin = new Line2D.Float(xStart, yStart, xEnd, yEnd);
             g2.drawLine(xStart, yStart, xEnd, yEnd);
         }
