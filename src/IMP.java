@@ -400,9 +400,9 @@ class IMP implements MouseListener {
             for (int j = 0; j < width; j++) {
                 int orgInt[] = getPixelArray(picture[i][j]);    //Get original image intensity values
                 //Use these values to reference replacement values in colorCounter and create new value array
-                int argb[] = new int[]{0, colorCounter[0][orgInt[1]], colorCounter[1][orgInt[2]], colorCounter[2][orgInt[3]]};
+                int argb[] = new int[]{255, colorCounter[0][orgInt[1]], colorCounter[1][orgInt[2]], colorCounter[2][orgInt[3]]};
 //                System.out.print("red: "+argb[1]+", green: "+argb[2]+", blue: "+argb[3]+" Take 2::   ");
-                picture[i][j] = getPixels(new int[]{0,100,100,100});        //Turn value array into pixel
+                picture[i][j] = getPixels(argb);        //Turn value array into pixel
 //                argb = getPixelArray(picture[i][j]);
 //                System.out.println("red: "+argb[1]+", green: "+argb[2]+", blue: "+argb[3]);
             }
