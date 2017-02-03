@@ -217,6 +217,7 @@ class IMP implements MouseListener {
 
         turnTwoDimensional();
         JLabel label2 = new JLabel(new ImageIcon(img2));
+        label2.addMouseListener(this);
         mp.removeAll();
         mp.add(label2);
         mp.repaint();
@@ -263,10 +264,10 @@ class IMP implements MouseListener {
         return rgba;
     }
 
-    public void getValue() {
+    public int[] getValue() {
         int pix = picture[colorY][colorX];
         int temp[] = getPixelArray(pix);
-        System.out.println("Color value " + temp[0] + " " + temp[1] + " " + temp[2] + " " + temp[3]);
+        return temp;
     }
 
     /**
@@ -414,14 +415,29 @@ class IMP implements MouseListener {
     }
 
     private void objTrack() {
+        int thresh = 20;
+        int track[] = getValue();
+
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j < width; j++) {
+                int argb[] = getPixelArray(picture[i][j]);
+                if( (argb[1] > track[1]-thresh && argb[1] < track[1]+thresh) 
+                        && (argb[2] > track[2]-thresh && argb[2] < track[2]+thresh)
+                        && (argb[3] > track[3]-thresh && argb[3] < track[3]+thresh)) {
+                    picture[i][j] = getPixels(new int[]{255, 255, 255, 255});   //Pixel is should be displayed
+                } else{
+                    picture[i][j] = getPixels(new int[]{255, 0, 0, 0}); //Pixel should not be displayed
+                }
+            }
+        }
+        resetPicture();
     }
 
     private void quit() {
         System.exit(0);
     }
 
-  // A bunch of mouse listeners that we aren't using for this lab 
-    // Maybe for the color tracking
+    // Mouse listeners
     @Override
     public void mouseEntered(MouseEvent m) {
     }
