@@ -24,6 +24,7 @@ class IMP implements MouseListener {
     File pic;
     ImageIcon img;
     int colorX, colorY;
+    int curFun = 0;
     int[] pixels;
     int[] results;
    //Instance Fields you will be using below
@@ -85,7 +86,13 @@ class IMP implements MouseListener {
         JPanel butPanel = new JPanel();
         butPanel.setBackground(Color.black);
         start = new JButton("start");
-        start.setEnabled(false);
+        start.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent evt) {
+                startB();
+            }
+        });
+        start.setEnabled(true);
         butPanel.add(start);
         frame.getContentPane().add(butPanel, BorderLayout.SOUTH);
         frame.setJMenuBar(bar);
@@ -108,37 +115,43 @@ class IMP implements MouseListener {
         firstItem.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent evt) {
-                grayscale();
+//                grayscale();
+                curFun = 1;
             }
         });
         secondItem.addActionListener(new ActionListener() {
             //@Overried
             public void actionPerformed(ActionEvent evt) {
-                rotate90();
+//                rotate90();
+                curFun = 2;
             }
         });
         thirdItem.addActionListener(new ActionListener() {
             //@Overried
             public void actionPerformed(ActionEvent evt) {
-                histogram();
+//                histogram();
+                curFun = 3;
             }
         });
         fourthItem.addActionListener(new ActionListener() {
             //@Overried
             public void actionPerformed(ActionEvent evt) {
-                edgeDetection();
+//                edgeDetection();
+                curFun = 4;
             }
         });
         fifthItem.addActionListener(new ActionListener() {
             //@Overried
             public void actionPerformed(ActionEvent evt) {
-                objTrack();
+//                objTrack();
+                curFun = 5;
             }
         });
         sixthItem.addActionListener(new ActionListener() {
             //@Override
             public void actionPerformed(ActionEvent evt) {
-                equalize();
+//                equalize();
+                curFun = 6;
             }
         });
         fun.add(firstItem);
@@ -147,6 +160,8 @@ class IMP implements MouseListener {
         fun.add(fourthItem);
         fun.add(fifthItem);
         fun.add(sixthItem);
+//        start.setEnabled(true);
+
         return fun;
 
     }
@@ -276,8 +291,8 @@ class IMP implements MouseListener {
      * when the corresponding pulldown menu is used. As long as you have a
      * picture open first the when your fun1, fun2, fun....etc method is called
      * you will have a 2D array called picture that is holding each pixel from
-     * your picture. 
-   ************************************************************************************************
+     * your picture.
+     * ***********************************************************************************************
      */
     /*
      * Example function that just removes all red values from the picture. 
@@ -307,7 +322,7 @@ class IMP implements MouseListener {
                 //get three ints for R, G and B
                 rgbArray = getPixelArray(picture[i][j]);
 
-           //rgbArray[2] = 0;
+                //rgbArray[2] = 0;
                 //take three ints for R, G, B and put them back into a single int
                 double gval = rgbArray[1] * .21 + rgbArray[2] * .72 + rgbArray[3] * .07;
                 rgbArray[1] = (int) gval;
@@ -372,7 +387,7 @@ class IMP implements MouseListener {
         blueFrame.setVisible(true);
         start.setEnabled(true);
 
-    //System.out.println("Red Counter - "+redTempCounter);
+        //System.out.println("Red Counter - "+redTempCounter);
         //Then pass those arrays to MyPanel constructor
         //Then when button is pushed call drawHistogram in MyPanel.....you write DrawHistogram
         //Don't forget to call repaint();
@@ -412,6 +427,30 @@ class IMP implements MouseListener {
     }
 
     private void edgeDetection() {
+
+    }
+
+    private void startB() {
+        switch (curFun) {
+            case 1:
+                grayscale();
+                break;
+            case 2:
+                rotate90();
+                break;
+            case 3:
+                histogram();
+                break;
+            case 4:
+                edgeDetection();
+                break;
+            case 5:
+                objTrack();
+                break;
+            case 6:
+                equalize();
+                break;
+        }
     }
 
     private void objTrack() {
@@ -421,11 +460,11 @@ class IMP implements MouseListener {
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
                 int argb[] = getPixelArray(picture[i][j]);
-                if( (argb[1] > track[1]-thresh && argb[1] < track[1]+thresh) 
-                        && (argb[2] > track[2]-thresh && argb[2] < track[2]+thresh)
-                        && (argb[3] > track[3]-thresh && argb[3] < track[3]+thresh)) {
+                if ((argb[1] > track[1] - thresh && argb[1] < track[1] + thresh)
+                        && (argb[2] > track[2] - thresh && argb[2] < track[2] + thresh)
+                        && (argb[3] > track[3] - thresh && argb[3] < track[3] + thresh)) {
                     picture[i][j] = getPixels(new int[]{255, 255, 255, 255});   //Pixel is should be displayed
-                } else{
+                } else {
                     picture[i][j] = getPixels(new int[]{255, 0, 0, 0}); //Pixel should not be displayed
                 }
             }
