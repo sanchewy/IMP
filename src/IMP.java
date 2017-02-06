@@ -24,10 +24,19 @@ class IMP implements MouseListener {
     File pic;
     ImageIcon img;
     int colorX, colorY;
-    int curFun = 0;
+
+    public enum curFun {    //All possible curret funcitons
+        grayscale,
+        rotate90,
+        histogram,
+        edgeDetection,
+        objTrack,
+        equalize
+    }
+    curFun curFun;      //Keeps track of selected function for start button
     int[] pixels;
     int[] results;
-   //Instance Fields you will be using below
+    //Instance Fields you will be using below
 
     //This will be your height and width of your 2d array
     int height = 0, width = 0;
@@ -115,43 +124,37 @@ class IMP implements MouseListener {
         firstItem.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent evt) {
-//                grayscale();
-                curFun = 1;
+                curFun = curFun.grayscale;
             }
         });
         secondItem.addActionListener(new ActionListener() {
-            //@Overried
+            @Override
             public void actionPerformed(ActionEvent evt) {
-//                rotate90();
-                curFun = 2;
+                curFun = curFun.rotate90;
             }
         });
         thirdItem.addActionListener(new ActionListener() {
-            //@Overried
+            @Override
             public void actionPerformed(ActionEvent evt) {
-//                histogram();
-                curFun = 3;
+                curFun = curFun.histogram;
             }
         });
         fourthItem.addActionListener(new ActionListener() {
-            //@Overried
+            @Override
             public void actionPerformed(ActionEvent evt) {
-//                edgeDetection();
-                curFun = 4;
+                curFun = curFun.edgeDetection;
             }
         });
         fifthItem.addActionListener(new ActionListener() {
-            //@Overried
+            @Override
             public void actionPerformed(ActionEvent evt) {
-//                objTrack();
-                curFun = 5;
+                curFun = curFun.objTrack;
             }
         });
         sixthItem.addActionListener(new ActionListener() {
-            //@Override
+            @Override
             public void actionPerformed(ActionEvent evt) {
-//                equalize();
-                curFun = 6;
+                curFun = curFun.equalize;
             }
         });
         fun.add(firstItem);
@@ -160,10 +163,7 @@ class IMP implements MouseListener {
         fun.add(fourthItem);
         fun.add(fifthItem);
         fun.add(sixthItem);
-//        start.setEnabled(true);
-
         return fun;
-
     }
 
     /*
@@ -218,10 +218,10 @@ class IMP implements MouseListener {
             }
         }
     }
+
     /*
      *  This method takes the picture back to the original picture
      */
-
     private void reset() {
         height = resHeight;
         width = resWidth;
@@ -238,10 +238,10 @@ class IMP implements MouseListener {
         mp.repaint();
         mp.revalidate();
     }
+
     /*
      * This method is called to redraw the screen with the new image. 
      */
-
     private void resetPicture() {
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
@@ -257,10 +257,10 @@ class IMP implements MouseListener {
         mp.revalidate();
 
     }
+
     /*
      * This method takes a single integer value and breaks it down doing bit manipulation to 4 individual int values for A, R, G, and B values
      */
-
     private int[] getPixelArray(int pixel) {
         int temp[] = new int[4];
         temp[0] = (pixel >> 24) & 0xff;
@@ -270,10 +270,10 @@ class IMP implements MouseListener {
         return temp;
 
     }
+
     /*
      * This method takes an array of size 4 and combines the first 8 bits of each to create one integer. 
      */
-
     private int getPixels(int rgb[]) {
         int rgba = (rgb[0] << 24) | (rgb[1] << 16) | (rgb[2] << 8) | rgb[3];
         return rgba;
@@ -288,7 +288,7 @@ class IMP implements MouseListener {
     /**
      * ************************************************************************************************
      * This is where you will put your methods. Every method below is called
-     * when the corresponding pulldown menu is used. As long as you have a
+     * when the corresponding pull down menu is used. As long as you have a
      * picture open first the when your fun1, fun2, fun....etc method is called
      * you will have a 2D array called picture that is holding each pixel from
      * your picture.
@@ -303,14 +303,14 @@ class IMP implements MouseListener {
      * integer value so you can give it back to the program and display the new picture. 
      */
 
-    /*
+ /*
      * fun2
      * This is where you will write your STACK
      * All the pixels are in picture[][]
      * Look at above fun1() to see how to get the RGB out of the int (getPixelArray)
      * and then put the RGB back to an int (getPixels)
      */
-    /*
+ /*
      * Take color image and turn it grayscale.
      */
     private void grayscale() {
@@ -386,11 +386,6 @@ class IMP implements MouseListener {
         blueFrame.getContentPane().add(bluePanel, BorderLayout.CENTER);
         blueFrame.setVisible(true);
         start.setEnabled(true);
-
-        //System.out.println("Red Counter - "+redTempCounter);
-        //Then pass those arrays to MyPanel constructor
-        //Then when button is pushed call drawHistogram in MyPanel.....you write DrawHistogram
-        //Don't forget to call repaint();
     }
 
     private void equalize() {
@@ -417,10 +412,7 @@ class IMP implements MouseListener {
                 int orgInt[] = getPixelArray(picture[i][j]);    //Get original image intensity values
                 //Use these values to reference replacement values in colorCounter and create new value array
                 int argb[] = new int[]{255, colorCounter[0][orgInt[1]], colorCounter[1][orgInt[2]], colorCounter[2][orgInt[3]]};
-//                System.out.print("red: "+argb[1]+", green: "+argb[2]+", blue: "+argb[3]+" Take 2::   ");
                 picture[i][j] = getPixels(argb);        //Turn value array into pixel
-//                argb = getPixelArray(picture[i][j]);
-//                System.out.println("red: "+argb[1]+", green: "+argb[2]+", blue: "+argb[3]);
             }
         }
         resetPicture();
@@ -432,22 +424,22 @@ class IMP implements MouseListener {
 
     private void startB() {
         switch (curFun) {
-            case 1:
+            case grayscale:
                 grayscale();
                 break;
-            case 2:
+            case rotate90:
                 rotate90();
                 break;
-            case 3:
+            case histogram:
                 histogram();
                 break;
-            case 4:
+            case edgeDetection:
                 edgeDetection();
                 break;
-            case 5:
+            case objTrack:
                 objTrack();
                 break;
-            case 6:
+            case equalize:
                 equalize();
                 break;
         }
